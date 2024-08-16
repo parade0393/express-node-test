@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Request Test</title>
+</head>
+<body>
+    <h1>API Request Test</h1>
+    <button onclick="testRequest('/api/users')">users</button>
+    <button onclick="testRequest('/api/slow-response')">slow</button>
+    <div id="result"></div>
+
+    <script>
+        function testRequest(endpoint) {
+            fetch(`http://localhost:3000${endpoint}`)
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => { throw err; });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('result').innerText = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    document.getElementById('result').innerText = '错误: ' + JSON.stringify(error, null, 2);
+                });
+        }
+    </script>
+</body>
+</html>
